@@ -3,12 +3,19 @@
     public class Obra
     {
         public int Id { get; set; }    //Primary key
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-
+        public string nombre { get; set; }
+        public string descripcion { get; set; }
         public DateOnly fecha_creacion { get; set; }
+        public Exposicion exposicion { get; set; }
+        public tipoObra tipo { get; set; }
+        public ObraCine obraCine { get; set; }
+        public ObraPintura obraPintura { get; set; }
+        public List<Sala> Salas { get; set; }   //Muchos a Muchos
+    }
 
-        //Foreign keys exposicion, numero pintura, numero obra
-
+    public enum tipoObra
+    {
+        Cine,
+        Pintura
     }
 }

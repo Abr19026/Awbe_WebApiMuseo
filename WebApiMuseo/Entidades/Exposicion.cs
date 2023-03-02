@@ -7,5 +7,7 @@
         public string Descripcion { get;}
         public DateOnly FechaInicio { get; set; }
         public DateOnly FechaFin { get; set; }
+
+        public List<Obra> Obras { get; set; }
     }
 }

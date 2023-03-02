@@ -2,17 +2,15 @@
 {
     public class Sala
     {
-        public int id;
-
-        public string nombre;
-
-        public Tipo_sala tipo;
+        public int id { get; set; }
+        public string nombre { get; set; }
+        public Tipo_sala tipo { get; set; }
+        public List<Obra> Obras { get; set; } //Muchos a Muchos
     }
 
     public enum Tipo_sala
     {
         Auditorio,
-        SalaCine,
         Salon,
         Explanada
     }
