@@ -1,4 +1,6 @@
-﻿namespace WebApiMuseo
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace WebApiMuseo
 {
     public class Startup
     {
@@ -10,10 +12,20 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            services.AddControllers();            
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("defaultConnection"))
+            );
+
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => 
+                c.SwaggerDoc(
+                    "v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo { 
+                        Title = "ApiMuseo",
+                        Version = "v1"
+                    }
+            ));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
