@@ -15,7 +15,8 @@ namespace WebApiMuseo.Migrations
                 name: "Exposiciones",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FechaFin = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -108,7 +109,7 @@ namespace WebApiMuseo.Migrations
                     nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     fecha_creacion = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    exposicionId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    exposicionId = table.Column<int>(type: "int", nullable: true),
                     tipo = table.Column<int>(type: "int", nullable: false),
                     obraCineId = table.Column<int>(type: "int", nullable: true),
                     obraPinturaId = table.Column<int>(type: "int", nullable: true)

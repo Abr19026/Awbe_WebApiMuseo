@@ -12,7 +12,7 @@ using WebApiMuseo;
 namespace WebApiMuseo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230303051426_InitalCreate")]
+    [Migration("20230303054551_InitalCreate")]
     partial class InitalCreate
     {
         /// <inheritdoc />
@@ -42,8 +42,11 @@ namespace WebApiMuseo.Migrations
 
             modelBuilder.Entity("WebApiMuseo.Entidades.Exposicion", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
@@ -70,8 +73,8 @@ namespace WebApiMuseo.Migrations
                     b.Property<string>("descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("exposicionId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("exposicionId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("fecha_creacion")
                         .HasColumnType("datetime2");

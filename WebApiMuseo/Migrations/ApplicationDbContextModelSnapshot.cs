@@ -39,8 +39,11 @@ namespace WebApiMuseo.Migrations
 
             modelBuilder.Entity("WebApiMuseo.Entidades.Exposicion", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
@@ -67,8 +70,8 @@ namespace WebApiMuseo.Migrations
                     b.Property<string>("descripcion")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("exposicionId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("exposicionId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("fecha_creacion")
                         .HasColumnType("datetime2");
