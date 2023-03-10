@@ -23,7 +23,7 @@ namespace WebApiMuseo.Controllers
                 new Obra() { Id = 1, nombre = "Starry Night", descripcion = "Pintura Van Gogh", fecha_creacion = new DateTime(1890,1,1) },
                 new Obra() { Id = 2, nombre = "Hamlet", descripcion = "Obra teatral", fecha_creacion = new DateTime(1600,1,1) }
             };
-        }
+        }   
 
         [HttpPost]
         public async Task<ActionResult> Post(Obra obra)
@@ -37,6 +37,34 @@ namespace WebApiMuseo.Controllers
         public async Task<ActionResult<List<Obra>>> GetObras() 
         {
             return await _context.Obras.ToListAsync();
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> PutObra(Obra obra, int id)
+        {
+            if (id != obra.Id)
+            {
+                return BadRequest("La id del objeto no coincide con el parametro id");
+            }
+            _context.Update(obra);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteObra(int id)
+        {
+            var existe = await _context.Obras.AnyAsync(x => x.Id == id);
+
+            if (!existe)
+            {
+                return NotFound();
+            }
+            
+            _context.Remove(new Obra { Id = id });
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

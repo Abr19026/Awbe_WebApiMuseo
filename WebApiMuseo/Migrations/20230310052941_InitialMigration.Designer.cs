@@ -12,8 +12,8 @@ using WebApiMuseo;
 namespace WebApiMuseo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230303054551_InitalCreate")]
-    partial class InitalCreate
+    [Migration("20230310052941_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,7 @@ namespace WebApiMuseo.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -70,22 +71,24 @@ namespace WebApiMuseo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("exposicionId")
+                    b.Property<int>("ExposicionId")
                         .HasColumnType("int");
+
+                    b.Property<string>("descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("fecha_creacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("obraCineId")
+                    b.Property<int>("obraCineId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("obraPinturaId")
+                    b.Property<int>("obraPinturaId")
                         .HasColumnType("int");
 
                     b.Property<int>("tipo")
@@ -93,7 +96,7 @@ namespace WebApiMuseo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("exposicionId");
+                    b.HasIndex("ExposicionId");
 
                     b.HasIndex("obraCineId");
 
@@ -111,12 +114,14 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("directorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("duracion")
                         .HasColumnType("int");
 
                     b.Property<int?>("escritorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("genero")
@@ -140,6 +145,7 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("PintorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("tecnica")
@@ -161,9 +167,11 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("es_persona")
@@ -183,6 +191,7 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("tipo")
@@ -212,15 +221,21 @@ namespace WebApiMuseo.Migrations
                 {
                     b.HasOne("WebApiMuseo.Entidades.Exposicion", "exposicion")
                         .WithMany("Obras")
-                        .HasForeignKey("exposicionId");
+                        .HasForeignKey("ExposicionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApiMuseo.Entidades.ObraCine", "obraCine")
                         .WithMany()
-                        .HasForeignKey("obraCineId");
+                        .HasForeignKey("obraCineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApiMuseo.Entidades.ObraPintura", "obraPintura")
                         .WithMany()
-                        .HasForeignKey("obraPinturaId");
+                        .HasForeignKey("obraPinturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("exposicion");
 
@@ -233,11 +248,15 @@ namespace WebApiMuseo.Migrations
                 {
                     b.HasOne("WebApiMuseo.Entidades.Persona", "director")
                         .WithMany()
-                        .HasForeignKey("directorId");
+                        .HasForeignKey("directorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApiMuseo.Entidades.Persona", "escritor")
                         .WithMany()
-                        .HasForeignKey("escritorId");
+                        .HasForeignKey("escritorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("director");
 
@@ -248,7 +267,9 @@ namespace WebApiMuseo.Migrations
                 {
                     b.HasOne("WebApiMuseo.Entidades.Persona", "Pintor")
                         .WithMany()
-                        .HasForeignKey("PintorId");
+                        .HasForeignKey("PintorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Pintor");
                 });

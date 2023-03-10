@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiMuseo;
 
@@ -11,9 +12,11 @@ using WebApiMuseo;
 namespace WebApiMuseo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230310060256_Mig2")]
+    partial class Mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +48,6 @@ namespace WebApiMuseo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("FechaFin")
                         .HasColumnType("datetime2");
 
@@ -55,6 +55,7 @@ namespace WebApiMuseo.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -70,22 +71,24 @@ namespace WebApiMuseo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ExposicionId")
+                    b.Property<int?>("ExposicionId")
                         .HasColumnType("int");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("fecha_creacion")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("obraCineId")
+                    b.Property<int>("obraCineId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("obraPinturaId")
+                    b.Property<int>("obraPinturaId")
                         .HasColumnType("int");
 
                     b.Property<int>("tipo")
@@ -110,13 +113,15 @@ namespace WebApiMuseo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("directorId")
+                    b.Property<int?>("directorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("duracion")
                         .HasColumnType("int");
 
-                    b.Property<int>("escritorId")
+                    b.Property<int?>("escritorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("genero")
@@ -139,7 +144,8 @@ namespace WebApiMuseo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PintorId")
+                    b.Property<int?>("PintorId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("tecnica")
@@ -161,9 +167,11 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("descripcion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("es_persona")
@@ -183,6 +191,7 @@ namespace WebApiMuseo.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("tipo")
@@ -212,17 +221,19 @@ namespace WebApiMuseo.Migrations
                 {
                     b.HasOne("WebApiMuseo.Entidades.Exposicion", "exposicion")
                         .WithMany("Obras")
-                        .HasForeignKey("ExposicionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExposicionId");
 
                     b.HasOne("WebApiMuseo.Entidades.ObraCine", "obraCine")
                         .WithMany()
-                        .HasForeignKey("obraCineId");
+                        .HasForeignKey("obraCineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApiMuseo.Entidades.ObraPintura", "obraPintura")
                         .WithMany()
-                        .HasForeignKey("obraPinturaId");
+                        .HasForeignKey("obraPinturaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("exposicion");
 
